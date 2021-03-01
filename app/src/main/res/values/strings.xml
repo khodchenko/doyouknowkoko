@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">doyouknowkoko</string>
+    <string name="outfit_name">Название</string>
+    <string name="outfit_brand">Бренд</string>
+    <string name="outfit_size">Размер</string>
+    <string name="outfit_comment">Описание</string>
+    <string name="outfit_price">Цена</string>
+    <string name="add">Добавить</string>
 </resources>
