@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "133392187241",
+    "project_id": "doyouknowkoko-59b8c",
+    "storage_bucket": "doyouknowkoko-59b8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133392187241:android:e24c7a5d13894380ac87f8",
+        "android_client_info": {
+          "package_name": "com.example.doyouknowkoko"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "133392187241-6m4mpr39rrogpsvkdpiicg5j4mql0836.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU48xE5QEaEz9h1EsUumDZQWG8Gyt6NrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "133392187241-6m4mpr39rrogpsvkdpiicg5j4mql0836.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
