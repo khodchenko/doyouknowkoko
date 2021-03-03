@@ -6,7 +6,7 @@ import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
 import java.util.*
-
+//TODO DELETE
 class ReadActivity : AppCompatActivity() {
     private var listViewReadData: ListView? = null
     private var arrayAdapter: ArrayAdapter<String>? = null
