@@ -1,5 +1,6 @@
 package com.example.doyouknowkoko
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -18,8 +19,10 @@ class AddOutfit : AppCompatActivity() {
     private var outfitComment: EditText? = null
     private var outfitPrice: EditText? = null
     private var btnAdd: Button? = null
+    private var btnLoad: Button? = null
     private var dataBase: DatabaseReference? = null
-    private val USER_KEY: String = "User"
+    private val USER_KEY: String = "Outfit"
+    private var id:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_outfit)
@@ -29,35 +32,51 @@ class AddOutfit : AppCompatActivity() {
         outfitComment = findViewById(R.id.et_outfitComment)
         outfitPrice = findViewById(R.id.et_outfitPrice)
         btnAdd = findViewById(R.id.btn_addOutfit)
-        dataBase = FirebaseDatabase.getInstance().getReference(USER_KEY)
+        btnLoad = findViewById(R.id.btn_load)
+        dataBase = FirebaseDatabase.getInstance().reference
+
 
         btnAdd?.setOnClickListener {
             onClickSave()
             Toast.makeText(this, "Добавлено в базу", Toast.LENGTH_SHORT).show()
-
+        }
+        btnLoad?.setOnClickListener {
+            onClickRead()
         }
     }
 
     private fun onClickSave() {
-        val idSave = dataBase?.key
+//        val typeSave = dataBase?.key
+////        var idSave = id++
+////        var outfitNameSave = outfitName?.text.toString()
+////        var outfitBrandSave = outfitBrand?.text.toString()
+////        var outfitSizeSave = outfitSize?.text.toString()
+////        var outfitCommentSave = outfitComment?.text.toString()
+////        var outfitPriceSave = outfitPrice?.text.toString()
+////
+////        val newOutfit = Outfit(
+////                typeSave,
+////                idSave,
+////                outfitNameSave,
+////                outfitBrandSave,
+////                outfitSizeSave,
+////                outfitCommentSave,
+////                outfitPriceSave
+////        )
+////        dataBase?.push()?.setValue(newOutfit)
         var outfitNameSave = outfitName?.text.toString()
         var outfitBrandSave = outfitBrand?.text.toString()
         var outfitSizeSave = outfitSize?.text.toString()
         var outfitCommentSave = outfitComment?.text.toString()
         var outfitPriceSave = outfitPrice?.text.toString()
 
-        val newUser = User(
-            idSave,
-            outfitNameSave,
-            outfitBrandSave,
-            outfitSizeSave,
-            outfitCommentSave,
-            outfitPriceSave
-        )
-        dataBase?.push()?.setValue(newUser)
+        dataBase?.child(id.toString())?.setValue(Outfit(outfitNameSave,outfitBrandSave,outfitSizeSave,outfitCommentSave,outfitPriceSave))
     }
 
-    fun onClickRead(view: View) {
+    fun onClickRead() {
+        val intent = Intent(this, ReadActivity::class.java)
+        startActivity(intent)
+
 
     }
 }

@@ -1,18 +1,17 @@
 package com.example.doyouknowkoko;
 
-public class User {
-    public String id;
+public class Outfit {
+
     public String outfitName;
     public String outfitBrand;
     public String outfitSize;
     public String outfitComment;
     public String outfitPrice;
 
-    public User() {
+    public Outfit() {
     }
 
-    public User(String id, String outfitName, String outfitBrand, String outfitSize, String outfitComment, String outfitPrice) {
-        this.id = id;
+    public Outfit(String outfitName, String outfitBrand, String outfitSize, String outfitComment, String outfitPrice) {
         this.outfitName = outfitName;
         this.outfitBrand = outfitBrand;
         this.outfitSize = outfitSize;
