@@ -1,14 +1,11 @@
 package com.example.doyouknowkoko
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.*
 
 private const val TAG = "AddOutfit"
 
@@ -46,37 +43,40 @@ class AddOutfit : AppCompatActivity() {
     }
 
     private fun onClickSave() {
-//        val typeSave = dataBase?.key
-////        var idSave = id++
-////        var outfitNameSave = outfitName?.text.toString()
-////        var outfitBrandSave = outfitBrand?.text.toString()
-////        var outfitSizeSave = outfitSize?.text.toString()
-////        var outfitCommentSave = outfitComment?.text.toString()
-////        var outfitPriceSave = outfitPrice?.text.toString()
-////
-////        val newOutfit = Outfit(
-////                typeSave,
-////                idSave,
-////                outfitNameSave,
-////                outfitBrandSave,
-////                outfitSizeSave,
-////                outfitCommentSave,
-////                outfitPriceSave
-////        )
-////        dataBase?.push()?.setValue(newOutfit)
+
         var outfitNameSave = outfitName?.text.toString()
         var outfitBrandSave = outfitBrand?.text.toString()
         var outfitSizeSave = outfitSize?.text.toString()
         var outfitCommentSave = outfitComment?.text.toString()
         var outfitPriceSave = outfitPrice?.text.toString()
 
-        dataBase?.child(id.toString())?.setValue(Outfit(outfitNameSave,outfitBrandSave,outfitSizeSave,outfitCommentSave,outfitPriceSave))
+        dataBase?.child(id.toString())?.setValue(Outfit(outfitNameSave, outfitBrandSave, outfitSizeSave, outfitCommentSave, outfitPriceSave))
     }
 
     fun onClickRead() {
-        val intent = Intent(this, ReadActivity::class.java)
-        startActivity(intent)
 
+        var getData = object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                    var ab = StringBuilder()
+                for (i in snapshot.children){
+                    var outfitName = i.child("outfitName").getValue()
+                    val outfitBrand = i.child("outfitBrand").getValue()
+                    val outfitSize = i.child("outfitSize").getValue()
+                    val outfitComment = i.child("outfitComment").getValue()
+                    val outfitPrice = i.child("outfitPrice").getValue()
+                    ab.append("${i.key} $outfitName $outfitBrand $outfitSize $outfitComment $outfitPrice")
+
+                }
+                Toast.makeText(applicationContext, ab, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+        dataBase?.addValueEventListener(getData)
+        dataBase?.addListenerForSingleValueEvent(getData)
 
     }
 }
