@@ -11,12 +11,12 @@ class RecyclerAdapter(private val elementList :List<Element>) : RecyclerView.Ada
 
     class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView:ImageView = itemView.findViewById(R.id.image_view)    //all data in elements
-        val textView1:TextView =  itemView.findViewById(R.id.text_view_1)
-        val textView2:TextView =  itemView.findViewById(R.id.text_view_2)
+        val textView1:TextView =  itemView.findViewById(R.id.tv_name)
+        val textView2:TextView =  itemView.findViewById(R.id.tv_brand)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.elements, parent,false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.element_item, parent,false)
         return RecyclerViewHolder(itemView)
     }
 
