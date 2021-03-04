@@ -33,10 +33,19 @@ public class MainActivity2 extends AppCompatActivity {
 
         receiveDataArrayList = new ArrayList<>();
 
-        GetDataFromDataBase();
+        clearAll();
+
+        getDataFromDataBase();
     }
 
-    private void GetDataFromDataBase() {
+    private void getDataFromDataBase() {
 
+    }
+
+    private void clearAll(){
+        if(receiveDataArrayList != null){
+            receiveDataArrayList.clear();
+        }
+        receiveDataArrayList = new ArrayList<>();
     }
 }

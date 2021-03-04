@@ -16,7 +16,7 @@ class RecyclerAdapter(private val elementList :List<Element>) : RecyclerView.Ada
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.elements, parent,false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.element_item, parent,false)
         return RecyclerViewHolder(itemView)
     }
 
