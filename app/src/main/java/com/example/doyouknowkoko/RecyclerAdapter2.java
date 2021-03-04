@@ -23,8 +23,31 @@ public class RecyclerAdapter2 extends RecyclerView.Adapter<RecyclerAdapter2.View
         this.receiveDataArrayList = receiveDataArrayList;
     }
 
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.element_item, parent, false);
 
-    private class ViewHolder extends RecyclerView.ViewHolder {
+
+
+
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.outfitName.setText(receiveDataArrayList.get(position).getOutfitName());
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+
+
+     class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
         TextView outfitName;
@@ -47,29 +70,5 @@ public class RecyclerAdapter2 extends RecyclerView.Adapter<RecyclerAdapter2.View
     }
 
 
-    @NonNull
-    @Override
-    public RecyclerAdapter2.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.element_item, parent, false);
 
-
-
-
-
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.outfitName.setText(receiveDataArrayList.get(position).getOutfitName());
-
-    }
-
-
-
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
 }
