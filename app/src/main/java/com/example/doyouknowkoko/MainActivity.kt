@@ -8,32 +8,32 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-class MainActivity : AppCompatActivity(), MyRecyclerViewAdapter.ItemClickListener {
-
-    var adapter: MyRecyclerViewAdapter? = null
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // data to populate the RecyclerView with
-        // data to populate the RecyclerView with
-        val animalNames: ArrayList<String> = ArrayList()
-        animalNames.add("Horse")
-        animalNames.add("Cow")
-        animalNames.add("Camel")
-        animalNames.add("Sheep")
-        animalNames.add("Goat")
+        val elementList = generateDummyList(500)
 
-        // set up the RecyclerView
-        // set up the RecyclerView
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview_xml)
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerview_xml)
+        recyclerView.adapter = RecyclerAdapter(elementList)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = MyRecyclerViewAdapter(this, animalNames)
-        adapter?.setClickListener(this)
-        recyclerView.adapter = adapter
+        recyclerView.setHasFixedSize(true)
     }
-    override fun onItemClick(view: View?, position: Int) {
-        Toast.makeText(this, "You clicked " + adapter?.getItem(position).toString() + " on row number " + position, Toast.LENGTH_SHORT).show()
+
+    private fun generateDummyList(size: Int): List<Element> {
+        val list = ArrayList<Element>()
+
+        for (i in 0 until size) {
+            val drawable = when (i % 3) {
+                0 -> R.drawable.ic_android
+                1 -> R.drawable.ic_explore
+                else -> R.drawable.ic_fastfood
+            }
+            val item = Element(drawable, "Item $i", "Line 2")
+            list += item
+        }
+        return list
     }
 }
