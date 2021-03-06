@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,10 +8,9 @@
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_xml"
-        android:padding="4dp"
-        android:clipToPadding="false"
+        android:id="@+id/recycler1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/element_item"/>
-</RelativeLayout>
+        android:background="#65E4A6"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
