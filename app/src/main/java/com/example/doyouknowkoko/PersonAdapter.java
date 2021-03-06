@@ -35,17 +35,17 @@ public class PersonAdapter extends FirebaseRecyclerAdapter<
         // Add firstname from model class (here
         // "person.class")to appropriate view in Card
         // view (here "person.xml")
-        holder.firstname.setText(model.getName());
+        holder.name.setText(model.getName());
 
         // Add lastname from model class (here
         // "person.class")to appropriate view in Card
         // view (here "person.xml")
-        holder.lastname.setText(model.getLastname());
+        holder.brand.setText(model.getLastname());
 
         // Add age from model class (here
         // "person.class")to appropriate view in Card
         // view (here "person.xml")
-        holder.age.setText(model.getAge());
+        holder.size.setText(model.getAge());
     }
 
     // Function to tell the class about the Card view (here
@@ -57,24 +57,21 @@ public class PersonAdapter extends FirebaseRecyclerAdapter<
     onCreateViewHolder(@NonNull ViewGroup parent,
                        int viewType)
     {
-        View view
-                = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.person, parent, false);
-        return new PersonAdapter.personsViewholder(view);
+        return new personsViewholder(view);
     }
 
     // Sub Class to create references of the views in Crad
     // view (here "person.xml")
-    class personsViewholder
-            extends RecyclerView.ViewHolder {
-        TextView firstname, lastname, age;
+    static class personsViewholder extends RecyclerView.ViewHolder { TextView name, brand, size;
         public personsViewholder(@NonNull View itemView)
         {
             super(itemView);
 
-            firstname = itemView.findViewById(R.id.tv_name_value);
-            lastname = itemView.findViewById(R.id.tv_brand_value);
-            age = itemView.findViewById(R.id.tv_size_value);
+            name = itemView.findViewById(R.id.tv_name_value);
+            brand = itemView.findViewById(R.id.tv_brand_value);
+            size = itemView.findViewById(R.id.tv_size_value);
         }
     }
 }

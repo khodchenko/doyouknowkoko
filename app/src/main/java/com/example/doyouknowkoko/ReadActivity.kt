@@ -28,7 +28,7 @@ class ReadActivity : AppCompatActivity() {
         private get() {
             val valueEventListener: ValueEventListener = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (listData!!.size > 0) listData!!.clear()
+                    if (listData!!.size > 0) listData?.clear()
                     for (dataSnapshot in snapshot.children) {
                         val outfit = dataSnapshot.getValue(Outfit::class.java)!!
                         listData!!.add(outfit.outfitName)

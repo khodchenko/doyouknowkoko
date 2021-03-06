@@ -12,8 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    PersonAdapter
-            adapter; // Create Object of the Adapter class
+    PersonAdapter adapter; // Create Object of the Adapter class
     DatabaseReference mbase; // Create object of the
     // Firebase Realtime Database
 
@@ -25,19 +24,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a instance of the database and get
         // its reference
-        mbase
-                = FirebaseDatabase.getInstance().getReference();
+        mbase = FirebaseDatabase.getInstance().getReference();
 
         recyclerView = findViewById(R.id.recycler1);
 
         // To display the Recycler view linearly
-        recyclerView.setLayoutManager(
-                new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // It is a class provide by the FirebaseUI to make a
         // query in the database to fetch appropriate data
-        FirebaseRecyclerOptions<Person> options
-                = new FirebaseRecyclerOptions.Builder<Person>()
+        FirebaseRecyclerOptions<Person> options = new FirebaseRecyclerOptions.Builder<Person>()
                 .setQuery(mbase, Person.class)
                 .build();
         // Connecting object of required Adapter class to

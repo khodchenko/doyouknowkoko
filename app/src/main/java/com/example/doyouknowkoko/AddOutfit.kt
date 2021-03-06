@@ -10,7 +10,7 @@ import com.google.firebase.database.*
 private const val TAG = "AddOutfit"
 
 class AddOutfit : AppCompatActivity() {
-    private var outfitName: EditText? = null
+    private var name: EditText? = null
     private var outfitBrand: EditText? = null
     private var outfitSize: EditText? = null
     private var outfitComment: EditText? = null
@@ -18,19 +18,20 @@ class AddOutfit : AppCompatActivity() {
     private var btnAdd: Button? = null
     private var btnLoad: Button? = null
     private var dataBase: DatabaseReference? = null
-    private val USER_KEY: String = "Outfit"
+    private val USER_KEY: String = "SHOES"
+    private var counter: Int = 0
     private var id:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_outfit)
-        outfitName = findViewById(R.id.et_outfitName)
+        name = findViewById(R.id.et_outfitName)
         outfitBrand = findViewById(R.id.et_outfitBrand)
         outfitSize = findViewById(R.id.et_outfitSize)
         outfitComment = findViewById(R.id.et_outfitComment)
         outfitPrice = findViewById(R.id.et_outfitPrice)
         btnAdd = findViewById(R.id.btn_addOutfit)
         btnLoad = findViewById(R.id.btn_load)
-        dataBase = FirebaseDatabase.getInstance().reference
+
 
 
         btnAdd?.setOnClickListener {
@@ -43,14 +44,15 @@ class AddOutfit : AppCompatActivity() {
     }
 
     private fun onClickSave() {
-
-        var outfitNameSave = outfitName?.text.toString()
+        counter++
+        dataBase = FirebaseDatabase.getInstance().getReference(USER_KEY)
+        var outfitNameSave = name?.text.toString()
         var outfitBrandSave = outfitBrand?.text.toString()
         var outfitSizeSave = outfitSize?.text.toString()
-        var outfitCommentSave = outfitComment?.text.toString()
-        var outfitPriceSave = outfitPrice?.text.toString()
+        //var outfitCommentSave = outfitComment?.text.toString()
+        //var outfitPriceSave = outfitPrice?.text.toString()
 
-        dataBase?.child(id.toString())?.setValue(Outfit(outfitNameSave, outfitBrandSave, outfitSizeSave, outfitCommentSave, outfitPriceSave))
+        dataBase?.child(id.toString())?.setValue(Outfit(outfitNameSave, outfitBrandSave, outfitSizeSave))
     }
 
     fun onClickRead() {
@@ -59,12 +61,12 @@ class AddOutfit : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                     var ab = StringBuilder()
                 for (i in snapshot.children){
-                    var outfitName = i.child("outfitName").getValue()
-                    val outfitBrand = i.child("outfitBrand").getValue()
-                    val outfitSize = i.child("outfitSize").getValue()
-                    val outfitComment = i.child("outfitComment").getValue()
-                    val outfitPrice = i.child("outfitPrice").getValue()
-                    ab.append("${i.key} $outfitName $outfitBrand $outfitSize $outfitComment $outfitPrice")
+                    var name = i.child("name").getValue()
+                    val brand = i.child("brand").getValue()
+                    val size = i.child("size").getValue()
+                    //val outfitComment = i.child("outfitComment").getValue()
+                    //val outfitPrice = i.child("outfitPrice").getValue()
+                    ab.append("${i.key} $name $brand $size")
 
                 }
                 Toast.makeText(applicationContext, ab, Toast.LENGTH_SHORT).show()
