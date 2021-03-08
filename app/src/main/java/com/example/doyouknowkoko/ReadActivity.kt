@@ -31,7 +31,7 @@ class ReadActivity : AppCompatActivity() {
                     if (listData!!.size > 0) listData?.clear()
                     for (dataSnapshot in snapshot.children) {
                         val outfit = dataSnapshot.getValue(Outfit::class.java)!!
-                        listData!!.add(outfit.outfitName)
+                        listData!!.add(outfit.name)
                     }
                     arrayAdapter!!.notifyDataSetChanged()
                 }

@@ -37,6 +37,7 @@ public class PersonAdapter extends FirebaseRecyclerAdapter<
         // view (here "person.xml")
         holder.name.setText(model.getName());
 
+
         // Add lastname from model class (here
         // "person.class")to appropriate view in Card
         // view (here "person.xml")
