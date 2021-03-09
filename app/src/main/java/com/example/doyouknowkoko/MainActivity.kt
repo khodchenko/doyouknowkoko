@@ -1,6 +1,7 @@
 package com.example.doyouknowkoko
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -45,6 +46,9 @@ class MainActivity : AppCompatActivity() {
         //toggle
         var drawerLayout : DrawerLayout = findViewById(R.id.drawer_layout)
         actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        actionBarDrawerToggle.syncState()
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     // Function to tell the app to start getting
@@ -59,5 +63,11 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         adapter!!.stopListening()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(actionBarDrawerToggle.onOptionsItemSelected(item))
+            return true
+        return super.onOptionsItemSelected(item)
     }
 }
