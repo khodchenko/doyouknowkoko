@@ -6,4 +6,6 @@
     <string name="outfit_comment">Описание</string>
     <string name="outfit_price">Цена</string>
     <string name="add">Добавить</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
