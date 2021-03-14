@@ -8,11 +8,11 @@ public class Person
 
     // Variable to store data corresponding
     // to lastname keyword in database
-    private String lastname;
+    private String brand;
 
     // Variable to store data corresponding
     // to age keyword in database
-    private String age;
+    private String size;
 
     // Mandatory empty constructor
     // for use of FirebaseUI
@@ -27,20 +27,20 @@ public class Person
     {
         this.name = name;
     }
-    public String getLastname()
+    public String getBrand()
     {
-        return lastname;
+        return brand;
     }
-    public void setLastname(String lastname)
+    public void setBrand(String brand)
     {
-        this.lastname = lastname;
+        this.brand = brand;
     }
-    public String getAge()
+    public String getSize()
     {
-        return age;
+        return size;
     }
-    public void setAge(String age)
+    public void setSize(String size)
     {
-        this.age = age;
+        this.size = size;
     }
 }

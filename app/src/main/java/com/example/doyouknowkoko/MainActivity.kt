@@ -44,9 +44,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setAdapter(adapter)
 
         //toggle
-        var drawerLayout : DrawerLayout = findViewById(R.id.drawer_layout)
-        actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
-        actionBarDrawerToggle.syncState()
+        //var drawerLayout : DrawerLayout = findViewById(R.id.drawer_layout)
+        //actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        //actionBarDrawerToggle.syncState()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
