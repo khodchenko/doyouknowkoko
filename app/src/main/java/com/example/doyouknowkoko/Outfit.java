@@ -1,5 +1,9 @@
 package com.example.doyouknowkoko;
 
+import android.widget.Toast;
+
+import kotlin.jvm.internal.Ref;
+
 public class Outfit {
 
     public String name;
@@ -18,4 +22,5 @@ public class Outfit {
         //this.outfitComment = outfitComment;
         //this.outfitPrice = outfitPrice;
     }
+
 }

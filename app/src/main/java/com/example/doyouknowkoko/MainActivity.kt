@@ -1,5 +1,6 @@
 package com.example.doyouknowkoko
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
@@ -10,12 +11,13 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.doyouknowkoko.R.id.nav_home
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var recyclerView: RecyclerView
     private var adapter: PersonAdapter? = null // Create Object of the Adapter class
     private var mbase: DatabaseReference? = null // Create object of the Firebase Realtime Database
@@ -57,11 +59,11 @@ class MainActivity : AppCompatActivity() {
         //todo setSupportActionBar(toolbar)
 
         //                      Navigation Drawer Menu
-        actionBarDrawerToggle =
-            ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        navigationView.bringToFront()
+        actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
         actionBarDrawerToggle.syncState()
 
-
+        navigationView.setNavigationItemSelectedListener(this)
     }
 
     // Function to tell the app to start getting
@@ -83,7 +85,6 @@ class MainActivity : AppCompatActivity() {
             return true
         return super.onOptionsItemSelected(item)
     }
-
     //to avoid closing the application on Back pressed
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -92,4 +93,24 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
+    //to save selected status on items on list
+    // logic on items in drawer menu
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_home2 -> startActivity(Intent(this@MainActivity,AddOutfit::class.java))
+//                    case R.id.nav_home2: Intent intent = new Intent(
+//                MainActivity.this,
+//                AddOutfit.class);
+//            startActivity(intent);
+//                break;
+//            case R . id . nav_share :
+//                    Toast toast = new Toast (this, "Share", Toast.LENGTH_SHORT )
+//                .show();
+//            break;
+        }
+
+        return true
+    }
+
+
 }
