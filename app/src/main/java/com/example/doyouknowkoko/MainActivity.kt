@@ -1,23 +1,27 @@
 package com.example.doyouknowkoko
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.MenuItem
+import android.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
-    var adapter // Create Object of the Adapter class
-            : PersonAdapter? = null
-    var mbase // Create object of the Firebase Realtime Database
-            : DatabaseReference? = null
-
+    private var adapter: PersonAdapter? = null // Create Object of the Adapter class
+    private var mbase: DatabaseReference? = null // Create object of the Firebase Realtime Database
+    private lateinit var navigationView: NavigationView
+    private lateinit var toolbar: Toolbar
+    private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle //slide menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,12 +47,21 @@ class MainActivity : AppCompatActivity() {
         // Connecting Adapter class with the Recycler view*/
         recyclerView.setAdapter(adapter)
 
-        //toggle
-        //var drawerLayout : DrawerLayout = findViewById(R.id.drawer_layout)
-        //actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
-        //actionBarDrawerToggle.syncState()
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //                       HOOKS
+        drawerLayout = findViewById(R.id.drawer_layout)
+        navigationView = findViewById(R.id.nav_view)
+        //toolbar = findViewById(R.id.toolbar)
+        //                        TOOLBAR
+
+        //todo setSupportActionBar(toolbar)
+
+        //                      Navigation Drawer Menu
+        actionBarDrawerToggle =
+            ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+        actionBarDrawerToggle.syncState()
+
+
     }
 
     // Function to tell the app to start getting
@@ -66,8 +79,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(actionBarDrawerToggle.onOptionsItemSelected(item))
+        if (actionBarDrawerToggle.onOptionsItemSelected(item))
             return true
         return super.onOptionsItemSelected(item)
+    }
+
+    //to avoid closing the application on Back pressed
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START)
+            } else {
+            super.onBackPressed()
+        }
     }
 }
