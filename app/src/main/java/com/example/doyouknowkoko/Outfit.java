@@ -1,26 +1,22 @@
 package com.example.doyouknowkoko;
 
-import android.widget.Toast;
-
-import kotlin.jvm.internal.Ref;
-
 public class Outfit {
 
     public String name;
     public String brand;
     public String size;
-    //public String outfitComment;
-    //public String outfitPrice;
+    public String comment;
+    public String price;
 
     public Outfit() {
     }
 
-    public Outfit(String outfitName, String outfitBrand, String outfitSize) {
+    public Outfit(String outfitName, String outfitBrand, String outfitSize, String outfitComment, String outfitPrice) {
         this.name = outfitName;
         this.brand = outfitBrand;
         this.size = outfitSize;
-        //this.outfitComment = outfitComment;
-        //this.outfitPrice = outfitPrice;
+        this.comment = outfitComment;
+        this.price = outfitPrice;
     }
 
 }
