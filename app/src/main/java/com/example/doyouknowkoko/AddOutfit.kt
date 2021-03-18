@@ -49,10 +49,10 @@ class AddOutfit : AppCompatActivity() {
         var outfitNameSave = name?.text.toString()
         var outfitBrandSave = brand?.text.toString()
         var outfitSizeSave = outfitSize?.text.toString()
-        //var outfitCommentSave = outfitComment?.text.toString()
-        //var outfitPriceSave = outfitPrice?.text.toString()
+        var outfitCommentSave = outfitComment?.text.toString()
+        var outfitPriceSave = outfitPrice?.text.toString()
 
-        dataBase?.setValue(Outfit(outfitNameSave, outfitBrandSave, outfitSizeSave))
+        dataBase?.setValue(Outfit(outfitNameSave, outfitBrandSave, outfitSizeSave, outfitCommentSave, outfitPriceSave))
     }
 
     private fun onClickRead() {
