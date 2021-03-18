@@ -55,18 +55,18 @@ class AddOutfit : AppCompatActivity() {
         dataBase?.setValue(Outfit(outfitNameSave, outfitBrandSave, outfitSizeSave))
     }
 
-    fun onClickRead() {
+    private fun onClickRead() {
 
         var getData = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                     var ab = StringBuilder()
                 for (i in snapshot.children){
                     var name = i.child("name").value
-                    val brand = i.child("brand").getValue()
-                    val size = i.child("size").getValue()
-                    //val outfitComment = i.child("outfitComment").getValue()
-                    //val outfitPrice = i.child("outfitPrice").getValue()
-                    ab.append("${i.key} $name $brand $size")
+                    val brand = i.child("brand").value
+                    val size = i.child("size").value
+                    val comment = i.child("comment").value
+                    val price = i.child("price").value
+                    ab.append("${i.key} $name $brand $size $comment $price")
 
                 }
                 Toast.makeText(applicationContext, ab, Toast.LENGTH_SHORT).show()
