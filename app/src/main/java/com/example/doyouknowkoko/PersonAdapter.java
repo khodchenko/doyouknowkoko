@@ -36,17 +36,11 @@ public class PersonAdapter extends FirebaseRecyclerAdapter<
         // "person.class")to appropriate view in Card
         // view (here "person.xml")
         holder.name.setText(model.getName());
-
-
-        // Add lastname from model class (here
-        // "person.class")to appropriate view in Card
-        // view (here "person.xml")
         holder.brand.setText(model.getBrand());
-
-        // Add age from model class (here
-        // "person.class")to appropriate view in Card
-        // view (here "person.xml")
         holder.size.setText(model.getSize());
+        holder.comment.setText(model.getComment());
+        holder.price.setText(model.getPrice());
+
     }
 
     // Function to tell the class about the Card view (here
@@ -54,18 +48,16 @@ public class PersonAdapter extends FirebaseRecyclerAdapter<
     // which the data will be shown
     @NonNull
     @Override
-    public personsViewholder
-    onCreateViewHolder(@NonNull ViewGroup parent,
-                       int viewType)
+    public personsViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.person, parent, false);
+                .inflate(R.layout.recycler_item, parent, false);
         return new personsViewholder(view);
     }
 
     // Sub Class to create references of the views in Crad
     // view (here "person.xml")
-    static class personsViewholder extends RecyclerView.ViewHolder { TextView name, brand, size;
+    static class personsViewholder extends RecyclerView.ViewHolder { TextView name, brand, size, comment, price;
         public personsViewholder(@NonNull View itemView)
         {
             super(itemView);
@@ -73,6 +65,8 @@ public class PersonAdapter extends FirebaseRecyclerAdapter<
             name = itemView.findViewById(R.id.tv_name_value);
             brand = itemView.findViewById(R.id.tv_brand_value);
             size = itemView.findViewById(R.id.tv_size_value);
+            comment = itemView.findViewById(R.id.tv_comment_value);
+            price = itemView.findViewById(R.id.tv_price_value);
         }
     }
 }
