@@ -1,6 +1,6 @@
 package com.example.doyouknowkoko
 
-import android.app.Activity
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -31,8 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Create a instance of the database and get
-        // its reference
+        // Create a instance of the database and get its reference
         mbase = FirebaseDatabase.getInstance().reference
         recyclerView = findViewById(R.id.recycler1)
 
@@ -44,8 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val options = FirebaseRecyclerOptions.Builder<Person>()
             .setQuery(mbase!!, Person::class.java)
             .build()
-        // Connecting object of required Adapter class to
-        // the Adapter class itself
+        // Connecting object of required Adapter class to the Adapter class itself
         adapter = PersonAdapter(options)
         // Connecting Adapter class with the Recycler view*/
         recyclerView.adapter = adapter

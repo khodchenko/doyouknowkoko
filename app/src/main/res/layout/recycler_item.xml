@@ -146,6 +146,7 @@
 
         <ImageView
             android:id="@+id/imageView"
+            android:src="@drawable/ic_loading_image"
             android:layout_width="157dp"
             android:layout_height="165dp"
             android:layout_marginStart="4dp"

@@ -5,17 +5,13 @@ public class Person
     // Variable to store data corresponding
     // to firstname keyword in database
     private String name;
-
     // Variable to store data corresponding
     // to lastname keyword in database
     private String brand;
-
     // Variable to store data corresponding
     // to age keyword in database
     private String size;
-
     private String comment;
-
     private String price;
 
     // Mandatory empty constructor
