@@ -28,7 +28,7 @@ class AddOutfit : AppCompatActivity() {
     private var btnAdd: Button? = null
     private var btnLoad: Button? = null
     private var dataBase: DatabaseReference? = null
-    private val USER_KEY: String = "SHOES"
+
 
     private lateinit var outfitImage: ImageView
     private var imageUri: Uri? = null
@@ -138,31 +138,28 @@ class AddOutfit : AppCompatActivity() {
         pd.setTitle("Uploading image...")
         pd.show()
 
-        if (fileUri != null) {
-            val fileName = UUID.randomUUID().toString()
+        val fileName = UUID.randomUUID().toString()
+        val refStorage = FirebaseStorage.getInstance().reference.child("images/$fileName")
 
-            val refStorage = FirebaseStorage.getInstance().reference.child("images/$fileName")
+        refStorage.putFile(imageUri!!)
+            .addOnSuccessListener(
+                OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+                    taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                        pd.dismiss()
+                        Snackbar.make(findViewById(android.R.id.content), "Image uploaded.",Snackbar.LENGTH_LONG)
+                       // val imageUrl = it.toString()
 
-            refStorage.putFile(imageUri!!)
-                .addOnSuccessListener(
-                    OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
-                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            pd.dismiss()
-                            Snackbar.make(findViewById(android.R.id.content), "Image uploaded.",Snackbar.LENGTH_LONG)
-                           // val imageUrl = it.toString()
-
-                        }
-                    })
-
-                .addOnFailureListener(OnFailureListener { e ->
-                    print(e.message)
-                    pd.dismiss()
+                    }
                 })
-                    //progressbar
-                .addOnProgressListener(OnProgressListener {
-                    var progressPercents:Double = (100.00 * it.bytesTransferred/it.totalByteCount)
-                    pd.setMessage("Percentage: $progressPercents%")
-                })
-        }
+
+            .addOnFailureListener(OnFailureListener { e ->
+                print(e.message)
+                pd.dismiss()
+            })
+                //progressbar
+            .addOnProgressListener(OnProgressListener {
+                var progressPercents:Double = (100.00 * it.bytesTransferred/it.totalByteCount)
+                pd.setMessage("Percentage: $progressPercents%")
+            })
     }
 }
