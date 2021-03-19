@@ -22,13 +22,13 @@ private const val TAG = "AddOutfit"
 class AddOutfit : AppCompatActivity() {
     private var name: EditText? = null
     private var brand: EditText? = null
-    private var outfitSize: EditText? = null
+    private var size: EditText? = null
     private var outfitComment: EditText? = null
     private var outfitPrice: EditText? = null
     private var btnAdd: Button? = null
     private var btnLoad: Button? = null
     private var dataBase: DatabaseReference? = null
-    private val USER_KEY: String = "SHOES"
+
 
     private lateinit var outfitImage: ImageView
     private var imageUri: Uri? = null
@@ -41,7 +41,7 @@ class AddOutfit : AppCompatActivity() {
 
         name = findViewById(R.id.et_outfitName)
         brand = findViewById(R.id.et_outfitBrand)
-        outfitSize = findViewById(R.id.et_outfitSize)
+        size = findViewById(R.id.et_outfitSize)
         outfitComment = findViewById(R.id.et_outfitComment)
         outfitPrice = findViewById(R.id.et_outfitPrice)
         btnAdd = findViewById(R.id.btn_addOutfit)
@@ -51,11 +51,11 @@ class AddOutfit : AppCompatActivity() {
         btnAdd?.setOnClickListener {
             onClickSave()
             Toast.makeText(this, "Добавлено в базу", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MainActivity::class.java))
         }
         btnLoad?.setOnClickListener {
             onClickRead()
         }
-
 
         outfitImage = findViewById(R.id.iv_upload_image)
         outfitImage.setOnClickListener(View.OnClickListener() {
@@ -64,15 +64,16 @@ class AddOutfit : AppCompatActivity() {
 
 
     }
-
+//SAVE BUTTON
     private fun onClickSave() {
         id++
         dataBase = FirebaseDatabase.getInstance().getReference(id.toString())
         var outfitNameSave = name?.text.toString()
         var outfitBrandSave = brand?.text.toString()
-        var outfitSizeSave = outfitSize?.text.toString()
+        var outfitSizeSave = size?.text.toString()
         var outfitCommentSave = outfitComment?.text.toString()
         var outfitPriceSave = outfitPrice?.text.toString()
+        var outfitImageUrlSave = imageUri
 
         dataBase?.setValue(
             Outfit(
@@ -80,33 +81,16 @@ class AddOutfit : AppCompatActivity() {
                 outfitBrandSave,
                 outfitSizeSave,
                 outfitCommentSave,
-                outfitPriceSave
+                outfitPriceSave,
+                outfitImageUrlSave.toString()
             )
-        )
-    }
 
+        )
+        uploadImageToFirebase(imageUri!!)
+    }
+//TEST BUTTON
     private fun onClickRead() {
         uploadImageToFirebase(imageUri!!)
-//        var getData = object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                var ab = StringBuilder()
-//                for (i in snapshot.children) {
-//                    var name = i.child("name").value
-//                    val brand = i.child("brand").value
-//                    val size = i.child("size").value
-//                    val comment = i.child("comment").value
-//                    val price = i.child("price").value
-//                    ab.append("${i.key} $name $brand $size $comment $price")
-//                }
-//                Toast.makeText(applicationContext, ab, Toast.LENGTH_SHORT).show()
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//
-//            }
-//        }
-//        dataBase?.addValueEventListener(getData)
-//        dataBase?.addListenerForSingleValueEvent(getData)
 
     }
 
@@ -128,7 +112,6 @@ class AddOutfit : AppCompatActivity() {
             // Get the Uri of data
             imageUri = data.data
             outfitImage.setImageURI(imageUri)
-            uploadImageToFirebase(imageUri!!)
         }
     }
 
@@ -138,31 +121,28 @@ class AddOutfit : AppCompatActivity() {
         pd.setTitle("Uploading image...")
         pd.show()
 
-        if (fileUri != null) {
-            val fileName = UUID.randomUUID().toString()
+        val fileName = UUID.randomUUID().toString()
+        val refStorage = FirebaseStorage.getInstance().reference.child("images/$fileName")
 
-            val refStorage = FirebaseStorage.getInstance().reference.child("images/$fileName")
+        refStorage.putFile(imageUri!!)
+            .addOnSuccessListener(
+                OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+                    taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                        pd.dismiss()
+                        Snackbar.make(findViewById(android.R.id.content), "Image uploaded.",Snackbar.LENGTH_LONG)
+                       // val imageUrl = it.toString()
 
-            refStorage.putFile(imageUri!!)
-                .addOnSuccessListener(
-                    OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
-                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                            pd.dismiss()
-                            Snackbar.make(findViewById(android.R.id.content), "Image uploaded.",Snackbar.LENGTH_LONG)
-                           // val imageUrl = it.toString()
-
-                        }
-                    })
-
-                .addOnFailureListener(OnFailureListener { e ->
-                    print(e.message)
-                    pd.dismiss()
+                    }
                 })
-                    //progressbar
-                .addOnProgressListener(OnProgressListener {
-                    var progressPercents:Double = (100.00 * it.bytesTransferred/it.totalByteCount)
-                    pd.setMessage("Percentage: $progressPercents%")
-                })
-        }
+
+            .addOnFailureListener(OnFailureListener { e ->
+                print(e.message)
+                pd.dismiss()
+            })
+                //progressbar
+            .addOnProgressListener(OnProgressListener {
+                var progressPercents:Double = (100.00 * it.bytesTransferred/it.totalByteCount)
+                pd.setMessage("Percentage: $progressPercents%")
+            })
     }
 }
