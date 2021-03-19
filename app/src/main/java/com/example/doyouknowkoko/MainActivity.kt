@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var adapter: PersonAdapter? = null // Create Object of the Adapter class
     private var mbase: DatabaseReference? = null // Create object of the Firebase Realtime Database
     private lateinit var navigationView: NavigationView
-    private lateinit var toolbar: Toolbar
+    //private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle //slide menu
 
@@ -109,7 +108,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_home -> startActivity(Intent(this@MainActivity, MainActivity::class.java))
             R.id.nav_addOutfit -> startActivity(Intent(this@MainActivity, AddOutfit::class.java))
-            R.id.nav_home3 -> startActivity(Intent(this@MainActivity, Bus::class.java))
+            R.id.nav_home3 -> startActivity(Intent(this@MainActivity, Test::class.java))
             R.id.nav_share -> Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
 //
         }

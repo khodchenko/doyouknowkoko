@@ -13,6 +13,7 @@ public class Person
     private String size;
     private String comment;
     private String price;
+    private String imageUrl;
 
     // Mandatory empty constructor
     // for use of FirebaseUI
@@ -48,5 +49,11 @@ public class Person
     }
     public void setPrice(String price) {
         this.price = price;
+    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
