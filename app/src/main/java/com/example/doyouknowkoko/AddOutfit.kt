@@ -17,14 +17,15 @@ import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.UploadTask
 import java.util.*
 
+
 private const val TAG = "AddOutfit"
 
 class AddOutfit : AppCompatActivity() {
-    private var name: EditText? = null
-    private var brand: EditText? = null
-    private var size: EditText? = null
-    private var outfitComment: EditText? = null
-    private var outfitPrice: EditText? = null
+    private var nameView: EditText? = null
+    private var brandView: EditText? = null
+    private var sizeView: EditText? = null
+    private var commentView: EditText? = null
+    private var priceView: EditText? = null
     private var btnAdd: Button? = null
     private var btnLoad: Button? = null
     private var dataBase: DatabaseReference? = null
@@ -39,11 +40,12 @@ class AddOutfit : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_outfit)
 
-        name = findViewById(R.id.et_outfitName)
-        brand = findViewById(R.id.et_outfitBrand)
-        size = findViewById(R.id.et_outfitSize)
-        outfitComment = findViewById(R.id.et_outfitComment)
-        outfitPrice = findViewById(R.id.et_outfitPrice)
+        nameView = findViewById(R.id.et_outfitName)
+        brandView = findViewById(R.id.et_outfitBrand)
+        sizeView = findViewById(R.id.et_outfitSize)
+        commentView = findViewById(R.id.et_outfitComment)
+        priceView = findViewById(R.id.et_outfitPrice)
+
         btnAdd = findViewById(R.id.btn_addOutfit)
         btnLoad = findViewById(R.id.btn_load)
 
@@ -58,37 +60,32 @@ class AddOutfit : AppCompatActivity() {
         }
 
         outfitImage = findViewById(R.id.iv_upload_image)
-        outfitImage.setOnClickListener(View.OnClickListener() {
+        outfitImage.setOnClickListener {
             chooseImage()
-        })
+        }
 
 
     }
-//SAVE BUTTON
+    //SAVE BUTTON
     private fun onClickSave() {
-        id++
-        dataBase = FirebaseDatabase.getInstance().getReference(id.toString())
-        var outfitNameSave = name?.text.toString()
-        var outfitBrandSave = brand?.text.toString()
-        var outfitSizeSave = size?.text.toString()
-        var outfitCommentSave = outfitComment?.text.toString()
-        var outfitPriceSave = outfitPrice?.text.toString()
-        var outfitImageUrlSave = imageUri
+
+
+        dataBase = FirebaseDatabase.getInstance().getReference(UUID.randomUUID().toString())
 
         dataBase?.setValue(
             Outfit(
-                outfitNameSave,
-                outfitBrandSave,
-                outfitSizeSave,
-                outfitCommentSave,
-                outfitPriceSave,
-                outfitImageUrlSave.toString()
+                nameView?.text.toString(),
+                brandView?.text.toString(),
+                sizeView?.text.toString(),
+                commentView?.text.toString(),
+                priceView?.text.toString(),
+                imageUri.toString()
             )
-
         )
         uploadImageToFirebase(imageUri!!)
     }
-//TEST BUTTON
+
+    //TEST BUTTON
     private fun onClickRead() {
         uploadImageToFirebase(imageUri!!)
 
@@ -115,7 +112,7 @@ class AddOutfit : AppCompatActivity() {
         }
     }
 
-    private fun uploadImageToFirebase(fileUri: Uri) {
+    private fun uploadImageToFirebase(imageUri: Uri) {
 
         val pd: ProgressDialog = ProgressDialog(this)
         pd.setTitle("Uploading image...")
@@ -124,25 +121,28 @@ class AddOutfit : AppCompatActivity() {
         val fileName = UUID.randomUUID().toString()
         val refStorage = FirebaseStorage.getInstance().reference.child("images/$fileName")
 
-        refStorage.putFile(imageUri!!)
-            .addOnSuccessListener(
-                OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
-                    taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                        pd.dismiss()
-                        Snackbar.make(findViewById(android.R.id.content), "Image uploaded.",Snackbar.LENGTH_LONG)
-                       // val imageUrl = it.toString()
+        refStorage.putFile(imageUri)
+            .addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                    pd.dismiss()
+                    Snackbar.make(
+                        findViewById(android.R.id.content),
+                        "Image uploaded.",
+                        Snackbar.LENGTH_LONG
+                    )
+                    val imageUrl = it.toString()
 
-                    }
-                })
+                }
+            }
 
-            .addOnFailureListener(OnFailureListener { e ->
+            .addOnFailureListener { e ->
                 print(e.message)
                 pd.dismiss()
-            })
-                //progressbar
-            .addOnProgressListener(OnProgressListener {
-                var progressPercents:Double = (100.00 * it.bytesTransferred/it.totalByteCount)
+            }
+            //progressbar
+            .addOnProgressListener {
+                var progressPercents: Double = (100.00 * it.bytesTransferred / it.totalByteCount)
                 pd.setMessage("Percentage: $progressPercents%")
-            })
+            }
     }
 }

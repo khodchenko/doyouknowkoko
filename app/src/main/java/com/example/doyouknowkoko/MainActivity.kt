@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // It is a class provide by the FirebaseUI to make a
         // query in the database to fetch appropriate data
-        val options = FirebaseRecyclerOptions.Builder<Person>()
-            .setQuery(mbase!!, Person::class.java)
+        val options = FirebaseRecyclerOptions.Builder<Outfit>()
+            .setQuery(mbase!!, Outfit::class.java)
             .build()
         // Connecting object of required Adapter class to the Adapter class itself
         adapter = PersonAdapter(options)
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //-------------------Navigation Drawer Menu--------------
 
         //Hide or show icons
-        var menu: Menu = navigationView.menu
+        val menu: Menu = navigationView.menu
         menu.findItem(R.id.nav_logout).isVisible = false
         menu.findItem(R.id.nav_profile).isVisible = false
 
