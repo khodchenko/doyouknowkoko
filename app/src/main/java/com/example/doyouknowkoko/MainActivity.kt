@@ -12,41 +12,41 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    SwipeRefreshLayout.OnRefreshListener {
     private lateinit var recyclerView: RecyclerView
-    private var adapter: PersonAdapter? = null // Create Object of the Adapter class
+    private var adapter: RecyclerAdapter? = null // Create Object of the Adapter class
     private var mbase: DatabaseReference? = null // Create object of the Firebase Realtime Database
     private lateinit var navigationView: NavigationView
     //private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle //slide menu
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout)
         // Create a instance of the database and get its reference
         mbase = FirebaseDatabase.getInstance().reference
         recyclerView = findViewById(R.id.recycler1)
-
         // To display the Recycler view linearly
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // It is a class provide by the FirebaseUI to make a
-        // query in the database to fetch appropriate data
+        // It is a class provide by the FirebaseUI to make a query in the database to fetch appropriate data
         val options = FirebaseRecyclerOptions.Builder<Outfit>()
             .setQuery(mbase!!, Outfit::class.java)
             .build()
         // Connecting object of required Adapter class to the Adapter class itself
-        adapter = PersonAdapter(options)
+        adapter = RecyclerAdapter(options)
         // Connecting Adapter class with the Recycler view*/
         recyclerView.adapter = adapter
-
+        swipeRefreshLayout.setOnRefreshListener(this)
 
         //                       HOOKS
         drawerLayout = findViewById(R.id.drawer_layout)
@@ -71,6 +71,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
 
         navigationView.setCheckedItem(R.id.nav_home) //set nav_home as default in drawer
+    }
+    //swipe refresh layout
+    override fun onRefresh() {
+       adapter?.notifyDataSetChanged()
+        swipeRefreshLayout.isRefreshing = false
     }
 
     // Function to tell the app to start getting
@@ -116,6 +121,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // if off and perform that indicate each time
         return true
     }
+
 
 
 }

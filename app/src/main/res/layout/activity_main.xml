@@ -5,28 +5,34 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:fitsSystemWindows="true"
+    tools:context=".MainActivity"
     tools:openDrawer="start">
 
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/nav_view"
+        android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/main_menu"
-        android:layout_gravity="start"/>
+        app:menu="@menu/main_menu" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ScrollView>
+        android:layout_height="match_parent" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler1"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#65E4A6" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#65E4A6" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
