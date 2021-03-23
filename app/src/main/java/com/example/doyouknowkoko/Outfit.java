@@ -20,4 +20,23 @@ public class Outfit {
         this.price = outfitPrice;
         this.imageUrl = imageUrl;
     }
+
+    public String getName() {
+        return name;
+    }
+    public String getBrand() {
+        return brand;
+    }
+    public String getSize() {
+        return size;
+    }
+    public String getComment() {
+        return comment;
+    }
+    public String getPrice() {
+        return price;
+    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
 }

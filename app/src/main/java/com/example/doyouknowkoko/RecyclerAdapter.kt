@@ -1,14 +1,12 @@
 package com.example.doyouknowkoko
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.doyouknowkoko.PersonAdapter.personsViewHolder
+import com.example.doyouknowkoko.RecyclerAdapter.personsViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.squareup.picasso.Picasso
@@ -16,14 +14,14 @@ import com.squareup.picasso.Picasso
 // FirebaseRecyclerAdapter is a class provided by
 // FirebaseUI. it provides functions to bind, adapt and show
 // database contents in a Recycler View
-class PersonAdapter(options: FirebaseRecyclerOptions<Person?>) :
-    FirebaseRecyclerAdapter<Person, personsViewHolder>(options) {
+class RecyclerAdapter(options: FirebaseRecyclerOptions<Outfit?>) :
+    FirebaseRecyclerAdapter<Outfit, personsViewHolder>(options) {
 
 
     // Function to bind the view in Card view(here
     // "person.xml") with data in
     // model class(here "person.class")
-    override fun onBindViewHolder(holder: personsViewHolder, position: Int, model: Person) {
+    override fun onBindViewHolder(holder: personsViewHolder, position: Int, model: Outfit) {
         // Add first name from model class (here "person.class")to appropriate view in CardView (here "person.xml")
         holder.name.text = model.name
         holder.brand.text = model.brand
