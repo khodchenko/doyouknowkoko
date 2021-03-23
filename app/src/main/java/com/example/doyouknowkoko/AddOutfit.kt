@@ -5,7 +5,10 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -62,14 +65,12 @@ class AddOutfit : AppCompatActivity() {
     }
     //SAVE BUTTON
     private fun onClickSave() {
-
-        uploadImageToFirebase()
+        uploadToFirebase()
     }
 
     //TEST BUTTON
     private fun onClickRead() {
-        uploadImageToFirebase()
-
+       // uploadImageToFirebase()
     }
 
     //----------------UPLOAD IMAGE-----------------------
@@ -84,20 +85,19 @@ class AddOutfit : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-
             // Get the Uri of data
             selectedPhotoUri = data.data
             outfitImage.setImageURI(selectedPhotoUri)
         }
     }
 
-    private fun uploadImageToFirebase() {
+    private fun uploadToFirebase() {
         val pd: ProgressDialog = ProgressDialog(this)
         pd.setTitle("Uploading image...")
         pd.show()
-        val fileName = UUID.randomUUID().toString()
+
+        val fileName = UUID.randomUUID().toString() //image name
         val refStorage = FirebaseStorage.getInstance().getReference("/images/$fileName")
 
         refStorage.putFile(selectedPhotoUri!!)
@@ -119,8 +119,11 @@ class AddOutfit : AppCompatActivity() {
             }
     }
 
-    private fun saveDataToDatabase(imageUrl:String) {
-        dataBase = FirebaseDatabase.getInstance().getReference(UUID.randomUUID().toString())
+    private fun saveDataToDatabase(imageUrl: String) {
+        //todo counter
+        val itemCount = intent.extras?.getString("ic")
+
+        dataBase = FirebaseDatabase.getInstance().getReference(itemCount.toString()) //child name
 
         dataBase?.setValue(
             Outfit(

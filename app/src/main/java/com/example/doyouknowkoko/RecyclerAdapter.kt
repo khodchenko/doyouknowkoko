@@ -30,6 +30,8 @@ class RecyclerAdapter(options: FirebaseRecyclerOptions<Outfit?>) :
         holder.price.text = model.price
         Picasso.get().load(model.imageUrl).into(holder.imageView)
        //Glide.with().load(model.imageUrl).into(holder.imageView)
+
+        
     }
 
     // Function to tell the class about the Card view (here"person.xml")in which the data will be shown

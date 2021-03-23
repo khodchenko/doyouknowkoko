@@ -3,6 +3,7 @@ package com.example.doyouknowkoko
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -18,13 +19,15 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
+private const val TAG = "MainActivity"
+
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     SwipeRefreshLayout.OnRefreshListener {
+
     private lateinit var recyclerView: RecyclerView
     private var adapter: RecyclerAdapter? = null // Create Object of the Adapter class
     private var mbase: DatabaseReference? = null // Create object of the Firebase Realtime Database
     private lateinit var navigationView: NavigationView
-    //private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle //slide menu
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -44,6 +47,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .build()
         // Connecting object of required Adapter class to the Adapter class itself
         adapter = RecyclerAdapter(options)
+
         // Connecting Adapter class with the Recycler view*/
         recyclerView.adapter = adapter
         swipeRefreshLayout.setOnRefreshListener(this)
@@ -72,9 +76,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navigationView.setCheckedItem(R.id.nav_home) //set nav_home as default in drawer
     }
+
     //swipe refresh layout
     override fun onRefresh() {
-       adapter?.notifyDataSetChanged()
+        adapter?.notifyDataSetChanged()
         swipeRefreshLayout.isRefreshing = false
     }
 
@@ -110,9 +115,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     //to save selected status on items on list
     // logic on items in drawer menu
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        //todo
+        val itemCounter = adapter?.itemCount.toString()
+        val intent = Intent(this, AddOutfit::class.java).apply {
+            Log.d(TAG, "onNavigationItemSelected: $itemCounter")
+            putExtra("ic", itemCounter)
+        }
         when (item.itemId) {
             R.id.nav_home -> startActivity(Intent(this@MainActivity, MainActivity::class.java))
-            R.id.nav_addOutfit -> startActivity(Intent(this@MainActivity, AddOutfit::class.java))
+            R.id.nav_addOutfit -> startActivity(intent)
             R.id.nav_home3 -> startActivity(Intent(this@MainActivity, Test::class.java))
             R.id.nav_share -> Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
 //
@@ -121,7 +132,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // if off and perform that indicate each time
         return true
     }
-
 
 
 }
