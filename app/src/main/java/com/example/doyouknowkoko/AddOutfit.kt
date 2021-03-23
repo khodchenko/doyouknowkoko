@@ -5,16 +5,10 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.OnProgressListener
-import com.google.firebase.storage.UploadTask
 import java.util.*
 
 
@@ -32,7 +26,7 @@ class AddOutfit : AppCompatActivity() {
 
 
     private lateinit var outfitImage: ImageView
-    private var imageUri: Uri? = null
+    private var selectedPhotoUri: Uri? = null
 
     private var id: Int = 0
 
@@ -69,25 +63,12 @@ class AddOutfit : AppCompatActivity() {
     //SAVE BUTTON
     private fun onClickSave() {
 
-
-        dataBase = FirebaseDatabase.getInstance().getReference(UUID.randomUUID().toString())
-
-        dataBase?.setValue(
-            Outfit(
-                nameView?.text.toString(),
-                brandView?.text.toString(),
-                sizeView?.text.toString(),
-                commentView?.text.toString(),
-                priceView?.text.toString(),
-                imageUri.toString()
-            )
-        )
-        uploadImageToFirebase(imageUri!!)
+        uploadImageToFirebase()
     }
 
     //TEST BUTTON
     private fun onClickRead() {
-        uploadImageToFirebase(imageUri!!)
+        uploadImageToFirebase()
 
     }
 
@@ -107,34 +88,26 @@ class AddOutfit : AppCompatActivity() {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
 
             // Get the Uri of data
-            imageUri = data.data
-            outfitImage.setImageURI(imageUri)
+            selectedPhotoUri = data.data
+            outfitImage.setImageURI(selectedPhotoUri)
         }
     }
 
-    private fun uploadImageToFirebase(imageUri: Uri) {
-
+    private fun uploadImageToFirebase() {
         val pd: ProgressDialog = ProgressDialog(this)
         pd.setTitle("Uploading image...")
         pd.show()
-
         val fileName = UUID.randomUUID().toString()
-        val refStorage = FirebaseStorage.getInstance().reference.child("images/$fileName")
+        val refStorage = FirebaseStorage.getInstance().getReference("/images/$fileName")
 
-        refStorage.putFile(imageUri)
-            .addOnSuccessListener { taskSnapshot ->
-                taskSnapshot.storage.downloadUrl.addOnSuccessListener {
-                    pd.dismiss()
-                    Snackbar.make(
-                        findViewById(android.R.id.content),
-                        "Image uploaded.",
-                        Snackbar.LENGTH_LONG
-                    )
-                    val imageUrl = it.toString()
+        refStorage.putFile(selectedPhotoUri!!)
+            .addOnSuccessListener {
+                    pd.dismiss() //close loading
+                    refStorage.downloadUrl.addOnSuccessListener {
 
+                        saveDataToDatabase(it.toString()) //get downloading url
+                    }
                 }
-            }
-
             .addOnFailureListener { e ->
                 print(e.message)
                 pd.dismiss()
@@ -144,5 +117,20 @@ class AddOutfit : AppCompatActivity() {
                 var progressPercents: Double = (100.00 * it.bytesTransferred / it.totalByteCount)
                 pd.setMessage("Percentage: $progressPercents%")
             }
+    }
+
+    private fun saveDataToDatabase(imageUrl:String) {
+        dataBase = FirebaseDatabase.getInstance().getReference(UUID.randomUUID().toString())
+
+        dataBase?.setValue(
+            Outfit(
+                nameView?.text.toString(),
+                brandView?.text.toString(),
+                sizeView?.text.toString(),
+                commentView?.text.toString(),
+                priceView?.text.toString(),
+                imageUrl
+            )
+        )
     }
 }
